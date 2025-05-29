@@ -1,0 +1,531 @@
+/* ===================================
+   YIELD MANAGEMENT - RESPONSIVE CSS
+   Optimisation mobile/tablet
+   =================================== */
+
+/* Breakpoints */
+/* Large screens: 1200px+ */
+/* Desktop: 992px - 1199px */
+/* Tablet: 768px - 991px */
+/* Mobile Large: 576px - 767px */
+/* Mobile: 320px - 575px */
+
+/* =========================
+   TABLET STYLES (768px - 991px)
+   ========================= */
+@media (max-width: 991px) {
+    .container {
+        margin: var(--spacing-sm);
+        border-radius: var(--radius-medium);
+    }
+    
+    .header {
+        padding: var(--spacing-lg);
+    }
+    
+    .header h1 {
+        font-size: 2em;
+    }
+    
+    .header p {
+        font-size: var(--font-size-large);
+    }
+    
+    .tab-content {
+        padding: var(--spacing-lg);
+    }
+    
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+    
+    .controls {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .control-group {
+        min-width: auto;
+    }
+    
+    table {
+        font-size: var(--font-size-small);
+    }
+    
+    th, td {
+        padding: var(--spacing-sm);
+    }
+    
+    /* Scroll horizontal pour les grands tableaux */
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    table {
+        min-width: 600px;
+    }
+}
+
+/* =========================
+   MOBILE LARGE (576px - 767px)
+   ========================= */
+@media (max-width: 767px) {
+    body {
+        padding: var(--spacing-xs);
+    }
+    
+    .container {
+        margin: 0;
+        border-radius: var(--spacing-sm);
+    }
+    
+    .header {
+        padding: var(--spacing-md);
+        text-align: center;
+    }
+    
+    .header h1 {
+        font-size: 1.8em;
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .header p {
+        font-size: var(--font-size-normal);
+    }
+    
+    /* Tabs responsive */
+    .tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .tabs::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .tab-button {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-small);
+        min-width: 100px;
+        flex-shrink: 0;
+    }
+    
+    .tab-content {
+        padding: var(--spacing-md);
+    }
+    
+    /* Métriques en colonne unique */
+    .metrics-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .metric-card {
+        padding: var(--spacing-md);
+    }
+    
+    .metric-card h3 {
+        font-size: 2em;
+    }
+    
+    .metric-card p {
+        font-size: 1em;
+    }
+    
+    /* Contrôles empilés */
+    .controls {
+        padding: var(--spacing-md);
+        gap: var(--spacing-sm);
+    }
+    
+    .control-group {
+        width: 100%;
+    }
+    
+    select, input {
+        width: 100%;
+        padding: var(--spacing-sm);
+    }
+    
+    .btn {
+        width: 100%;
+        padding: var(--spacing-md);
+        font-size: var(--font-size-normal);
+    }
+    
+    /* Tables responsive */
+    .table-container {
+        margin-bottom: var(--spacing-lg);
+        border-radius: var(--spacing-sm);
+    }
+    
+    .table-header {
+        padding: var(--spacing-md);
+        font-size: var(--font-size-normal);
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-xs);
+    }
+    
+    table {
+        font-size: 11px;
+        min-width: 100%;
+    }
+    
+    th, td {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    th {
+        font-size: 10px;
+    }
+    
+    /* Graphiques responsive */
+    .chart-container {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .chart-container h3 {
+        font-size: var(--font-size-large);
+        text-align: center;
+    }
+    
+    #hotelChart {
+        width: 100% !important;
+        height: 250px !important;
+    }
+}
+
+/* =========================
+   MOBILE SMALL (320px - 575px)
+   ========================= */
+@media (max-width: 575px) {
+    :root {
+        --spacing-xs: 3px;
+        --spacing-sm: 6px;
+        --spacing-md: 10px;
+        --spacing-lg: 15px;
+        --spacing-xl: 20px;
+    }
+    
+    body {
+        padding: var(--spacing-xs);
+    }
+    
+    .header h1 {
+        font-size: 1.5em;
+    }
+    
+    .header p {
+        font-size: var(--font-size-small);
+    }
+    
+    .tab-button {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: 11px;
+        min-width: 80px;
+    }
+    
+    .metric-card {
+        padding: var(--spacing-sm);
+    }
+    
+    .metric-card h3 {
+        font-size: 1.5em;
+    }
+    
+    .metric-card p {
+        font-size: var(--font-size-small);
+    }
+    
+    .table-header {
+        padding: var(--spacing-sm);
+        font-size: var(--font-size-small);
+    }
+    
+    table {
+        font-size: 10px;
+    }
+    
+    th, td {
+        padding: var(--spacing-xs);
+    }
+    
+    .btn {
+        padding: var(--spacing-sm);
+        font-size: var(--font-size-small);
+    }
+    
+    .chart-container {
+        padding: var(--spacing-sm);
+    }
+    
+    #hotelChart {
+        height: 200px !important;
+    }
+}
+
+/* =========================
+   LARGE SCREENS (1200px+)
+   ========================= */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1600px;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .controls {
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+    }
+    
+    .control-group {
+        min-width: 180px;
+    }
+    
+    .tab-content {
+        padding: 40px;
+    }
+    
+    table {
+        font-size: var(--font-size-normal);
+    }
+    
+    th, td {
+        padding: 15px var(--spacing-md);
+    }
+}
+
+/* =========================
+   PRINT STYLES
+   ========================= */
+@media print {
+    * {
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+    }
+    
+    body {
+        background: white;
+        padding: 0;
+    }
+    
+    .container {
+        box-shadow: none;
+        background: white;
+    }
+    
+    .header {
+        background: white !important;
+        color: black !important;
+        border-bottom: 2px solid black;
+    }
+    
+    .tabs {
+        display: none;
+    }
+    
+    .tab-content {
+        display: block !important;
+        padding: 20px 0;
+    }
+    
+    .metric-card {
+        background: white !important;
+        color: black !important;
+        border: 1px solid black;
+    }
+    
+    .table-container {
+        break-inside: avoid;
+        background: white !important;
+        border: 1px solid black;
+    }
+    
+    .table-header {
+        background: #f0f0f0 !important;
+        color: black !important;
+    }
+    
+    .btn {
+        display: none;
+    }
+    
+    .controls {
+        display: none;
+    }
+    
+    .chart-container {
+        break-inside: avoid;
+        border: 1px solid black;
+    }
+}
+
+/* =========================
+   ACCESSIBILITY IMPROVEMENTS
+   ========================= */
+
+/* Focus indicators */
+@media (prefers-reduced-motion: no-preference) {
+    .tab-button:focus,
+    .btn:focus,
+    select:focus,
+    input:focus {
+        outline: 3px solid var(--warning-orange);
+        outline-offset: 2px;
+    }
+}
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .tab-content {
+        animation: none;
+    }
+    
+    .metric-card:hover {
+        transform: none;
+    }
+    
+    .btn:hover {
+        transform: none;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-blue: #0066cc;
+        --success-green: #008800;
+        --warning-orange: #ff6600;
+        --danger-red: #cc0000;
+        --dark-gray: #000000;
+    }
+    
+    .metric-card,
+    .table-container,
+    .chart-container {
+        border: 2px solid black;
+    }
+    
+    .btn {
+        border: 2px solid white;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --light-gray: #34495e;
+        --medium-gray: #7f8c8d;
+        --dark-gray: #ecf0f1;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    }
+    
+    .container {
+        background: rgba(44, 62, 80, 0.95);
+        color: #ecf0f1;
+    }
+    
+    th {
+        background: #34495e;
+        color: #ecf0f1;
+    }
+    
+    tr:hover {
+        background: rgba(52, 152, 219, 0.2);
+    }
+    
+    .table-container,
+    .chart-container {
+        background: #2c3e50;
+        color: #ecf0f1;
+    }
+}
+
+/* =========================
+   TOUCH IMPROVEMENTS
+   ========================= */
+@media (hover: none) and (pointer: coarse) {
+    /* Touch-friendly sizing */
+    .tab-button {
+        min-height: 44px;
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+    
+    .btn {
+        min-height: 44px;
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+    
+    select, input {
+        min-height: 44px;
+        padding: var(--spacing-md);
+    }
+    
+    /* Remove hover effects on touch */
+    .metric-card:hover,
+    .btn:hover,
+    .tab-button:hover {
+        transform: none;
+        box-shadow: var(--shadow-medium);
+    }
+    
+    tr:hover {
+        background: transparent;
+        transform: none;
+    }
+}
+
+/* =========================
+   LANDSCAPE MOBILE OPTIMIZATIONS
+   ========================= */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .header h1 {
+        font-size: 1.5em;
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .header p {
+        font-size: var(--font-size-small);
+    }
+    
+    .tab-content {
+        padding: var(--spacing-md);
+    }
+    
+    .metrics-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--spacing-sm);
+    }
+    
+    .metric-card {
+        padding: var(--spacing-sm);
+    }
+    
+    .metric-card h3 {
+        font-size: 1.5em;
+    }
+}
