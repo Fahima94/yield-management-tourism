@@ -1,1 +1,25 @@
+/**
+ * ===================================
+ * YIELD MANAGEMENT ALGORITHMS
+ * Algorithmes de yield management pour tourisme
+ * Basé sur expérience terrain 2008-2010
+ * ===================================
+ */
 
+class YieldManagementEngine {
+    constructor() {
+        this.config = {
+            // Seuils de performance
+            clickRateThreshold: 3.5,        // Seuil taux de clics (%)
+            conversionThreshold: 2.8,       // Seuil taux de conversion (%)
+            profitMarginTarget: 18.0,       // Objectif marge (%)
+            stockAlertLevel: 15,            // Alerte stock bas (places)
+            
+            // Paramètres d'ajustement
+            priceAdjustmentRate: 5,         // Taux ajustement prix (%)
+            maxPriceIncrease: 25,           // Augmentation max (%)
+            maxPriceDecrease: 20,           // Réduction max (%)
+            urgentStockLevel: 10,           // Stock critique (places)
+            
+            // Coefficients de pondération
+            demandWeight: 0.4,              // P
