@@ -1,0 +1,9 @@
+streamlit==1.29.0
+pandas==2.1.4
+numpy==1.24.3
+plotly==5.17.0
+datetime
+openpyxl==3.1.2
+xlsxwriter==3.1.9
+python-dateutil==2.8.2
+Pillow==10.1.0
