@@ -315,3 +315,22 @@ st.markdown("""
     <p>GitHub: <a href="https://github.com/Fahima94/yield-management-tourism" target="_blank">yield-management-tourism</a></p>
 </div>
 """, unsafe_allow_html=True)
+def load_css():
+    # CSS principal
+    with open('main_css.css', 'r', encoding='utf-8') as f:
+        css_main = f.read()
+    
+    # CSS responsive
+    with open('responsive_css.css', 'r', encoding='utf-8') as f:
+        css_responsive = f.read()
+    
+    # Injection du CSS
+    st.markdown(f'''
+    <style>
+    {css_main}
+    {css_responsive}
+    </style>
+    ''', unsafe_allow_html=True)
+
+# Appeler au début de votre app
+load_css()
