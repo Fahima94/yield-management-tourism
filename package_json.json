@@ -1,0 +1,58 @@
+{
+  "name": "yield-management-tourism",
+  "version": "1.0.0",
+  "description": "Système professionnel de yield management touristique basé sur 8+ années d'expérience terrain (2008-2010). Gestion de €15M+ de contrats avec partenaires premium (Oberoi, Mercure, TBH Hotels, Hilton).",
+  "main": "app.py",
+  "scripts": {
+    "start": "streamlit run app.py",
+    "dev": "streamlit run app.py --server.runOnSave true",
+    "build": "echo 'Application Streamlit - Build completed'",
+    "test": "python -m pytest tests/",
+    "lint": "pylint app.py",
+    "format": "black app.py"
+  },
+  "keywords": [
+    "yield-management",
+    "tourism",
+    "hotel-management",
+    "revenue-optimization",
+    "streamlit",
+    "business-intelligence",
+    "data-analytics",
+    "hospitality",
+    "travel-industry",
+    "pricing-strategy"
+  ],
+  "author": {
+    "name": "Fahima",
+    "email": "votre.email@domain.com",
+    "url": "https://github.com/Fahima94"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Fahima94/yield-management-tourism.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Fahima94/yield-management-tourism/issues"
+  },
+  "homepage": "https://fahima94-yield-management-tourism.streamlit.app",
+  "engines": {
+    "node": ">=14.0.0",
+    "python": ">=3.8"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "config": {
+    "streamlit": {
+      "port": 8501,
+      "theme": "light"
+    }
+  },
+  "browserslist": [
+    ">1%",
+    "last 4 versions",
+    "Firefox ESR",
+    "not ie < 9"
+  ]
+}
