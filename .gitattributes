@@ -1,0 +1,20 @@
+# Configuration des langages pour GitHub
+*.css linguist-detectable=true
+*.html linguist-detectable=true  
+*.js linguist-detectable=true
+*.json linguist-detectable=true
+
+# Forcer la détection des langages
+main_css.css linguist-language=CSS
+responsive_css.css linguist-language=CSS
+package.json linguist-language=JSON
+
+# Éviter que certains fichiers dominent
+requirements.txt linguist-documentation=true
+*.md linguist-documentation=true
+*.txt linguist-documentation=true
+
+# Assurer que le CSS et JS sont comptés
+static/** linguist-vendored=false
+css/** linguist-vendored=false
+js/** linguist-vendored=false
