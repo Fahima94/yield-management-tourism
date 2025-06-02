@@ -1,0 +1,12 @@
+{
+  "name": "yield-management-tourism",
+  "version": "1.0.0",
+  "description": "Système professionnel de yield management touristique",
+  "main": "app.py",
+  "scripts": {
+    "start": "streamlit run app.py"
+  },
+  "dependencies": {},
+  "author": "Fahima",
+  "license": "MIT"
+}
