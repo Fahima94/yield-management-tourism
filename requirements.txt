@@ -1,8 +1,0 @@
-streamlit
-plotly
-pandas
-numpy
-rich
-markdown-it-py
-pygments
-mdurl
