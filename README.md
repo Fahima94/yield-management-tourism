@@ -11,15 +11,9 @@
 
 > **Système professionnel de yield management touristique**
 > 
-> *⚡Titre
+> *⚡Tourism Revenue Management Analytics
 
-Tourism Revenue Management Analytics
-
-Description
-
-Exemple :
-
-Ce projet reproduit une logique de yield / revenue management appliquée au tourisme.
+Ce projet reproduit la logique de yield / revenue management que j'appliquais.
 Il s’appuie sur mon expérience terrain dans la gestion de contrats hôteliers et l’optimisation de revenus.
 
 Objectifs
