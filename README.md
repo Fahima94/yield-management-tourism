@@ -11,7 +11,40 @@
 
 > **Système professionnel de yield management touristique**
 > 
-> *⚡ Né de mon expérience terrain (2008-2010) en tant que Responsable de Production Touristique*
+> *⚡Titre
+
+Tourism Revenue Management Analytics
+
+Description
+
+Exemple :
+
+Ce projet reproduit une logique de yield / revenue management appliquée au tourisme.
+Il s’appuie sur mon expérience terrain dans la gestion de contrats hôteliers et l’optimisation de revenus.
+
+Objectifs
+
+analyser la demande touristique
+
+simuler des stratégies de pricing
+
+calculer les KPI revenue management
+
+KPI analysés
+
+ADR
+
+RevPAR
+
+taux d’occupation
+
+revenus par canal
+
+Technologies
+
+Excel / Python
+
+Data visualisation*
 > *Digitalisé avec les outils modernes pour maximiser l'efficacité opérationnelle*
 
 ---
