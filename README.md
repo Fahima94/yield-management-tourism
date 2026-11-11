@@ -9,37 +9,15 @@
 [![Hotels](https://img.shields.io/badge/Premium%20Partners-Oberoi%20|%20Hilton%20|%20Mercure-blue?style=flat-square)](https://github.com/Fahima94/yield-management-tourism)
 [![Impact](https://img.shields.io/badge/Business%20Impact-%2B23%25%20Revenue-brightgreen?style=flat-square)](https://github.com/Fahima94/yield-management-tourism)
 
-> **Système professionnel de yield management touristique**
-> 
-> *⚡Tourism Revenue Management Analytics
+> **Système de yield management touristique** : la logique de revenue management que j'appliquais sur le terrain, digitalisée.
 
-Ce projet reproduit la logique de yield / revenue management que j'appliquais.
-Il s’appuie sur mon expérience terrain dans la gestion de contrats hôteliers et l’optimisation de revenus.
+Ce projet s'appuie sur mon expérience de gestion de contrats hôteliers et d'optimisation des revenus en tour-opérateur.
 
-Objectifs
-
-analyser la demande touristique
-
-simuler des stratégies de pricing
-
-calculer les KPI revenue management
-
-KPI analysés
-
-ADR
-
-RevPAR
-
-taux d’occupation
-
-revenus par canal
-
-Technologies
-
-Excel / Python
-
-Data visualisation*
-> *Digitalisé avec les outils modernes pour maximiser l'efficacité opérationnelle*
+| 🎯 Objectifs | 📊 KPI suivis | 🛠️ Outils |
+|---|---|---|
+| Analyser la demande touristique | ADR (prix moyen par chambre) | Python · Streamlit |
+| Simuler des stratégies de pricing | RevPAR | Excel |
+| Calculer les KPI de revenue management | Taux d'occupation · revenus par canal | Data visualisation |
 
 ---
 
@@ -503,15 +481,16 @@ streamlit run app.py
 
 ### 📞 **Contact**
 
-- 📧 **Email** : [votre.email@domain.com](mailto:votre.email@domain.com)
-- 💼 **LinkedIn** : [linkedin.com/in/votre-profil](https://linkedin.com/in/votre-profil)
+- 📧 **Email** : [horizonsdatas@gmail.com](mailto:horizonsdatas@gmail.com)
+- 💼 **LinkedIn** : [linkedin.com/in/fahima-be](https://www.linkedin.com/in/fahima-be/)
+- 📅 **Rendez-vous** : [calendly.com/horizonsdatas/30min](https://calendly.com/horizonsdatas/30min)
 - 🐙 **GitHub** : [github.com/Fahima94](https://github.com/Fahima94)
 
 ---
 
 ## 📄 Licence
 
-Ce projet est sous licence **MIT** - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+Ce projet est sous licence **MIT**.
 
 ---
 
