@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yield Management Tourisme · Simulateur</title>
+<meta name="description" content="Simulateur de yield management pour tour-opérateur : prix conseillé, stock de sièges, contrats hôteliers fermes et allotements. Par Fahima Behillil.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f3ec; --card:#ffffff; --ink:#14233a; --muted:#5d6b7e; --line:#e6dfd3;
+    --teal:#1f7a72; --teal-soft:#e2f1ef; --coral:#d9542b; --coral-soft:#fbe9e2;
+    --amber:#b7791f; --amber-soft:#fbf1dc; --green:#2f7d4a; --green-soft:#e3f2e8;
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.15;margin:0}
+  a{color:var(--teal)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  /* nav */
+  nav{position:sticky;top:0;z-index:10;background:rgba(247,243,236,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+  nav a{white-space:nowrap;text-decoration:none;color:var(--ink);font-weight:600;font-size:14px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card)}
+  nav a:hover{border-color:var(--teal);color:var(--teal)}
+  /* hero */
+  header{padding:48px 0 28px}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal)}
+  header h1{font-size:clamp(32px,6vw,54px);margin:10px 0 14px;max-width:16ch}
+  header p.lead{font-size:clamp(17px,2.4vw,20px);color:var(--muted);max-width:60ch;margin:0}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .tag{font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+  .demo-note{margin-top:16px;font-size:13px;color:var(--muted)}
+  section{padding:28px 0}
+  section > .wrap > h2{font-size:clamp(26px,4vw,34px);margin-bottom:6px}
+  section > .wrap > p.sub{color:var(--muted);margin:0 0 20px;max-width:65ch}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+  /* simulator */
+  .sim{display:grid;grid-template-columns:340px 1fr;gap:18px}
+  @media (max-width:860px){.sim{grid-template-columns:1fr}}
+  .presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .presets button{font:inherit;font-size:13px;font-weight:600;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+  .presets button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .presets button.crisis{border-color:var(--coral);color:var(--coral)}
+  .presets button.crisis.on{background:var(--coral);color:#fff}
+  .seg{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:6px}
+  .seg button{font:inherit;font-weight:600;font-size:14px;border:0;background:transparent;padding:9px;border-radius:9px;cursor:pointer;color:var(--muted)}
+  .seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  .hint{font-size:12.5px;color:var(--muted);margin:0 0 14px}
+  .field{margin-bottom:14px}
+  .field label{display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:6px}
+  .field label output{font-variant-numeric:tabular-nums;color:var(--teal)}
+  input[type=range]{width:100%;accent-color:var(--teal);height:28px}
+  .reco{border-radius:var(--radius);padding:18px 20px;margin-bottom:16px}
+  .reco.good{background:var(--green-soft)} .reco.warn{background:var(--amber-soft)} .reco.bad{background:var(--coral-soft)}
+  .reco .k{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .reco .price{font-family:Fraunces,serif;font-size:clamp(34px,6vw,46px);font-weight:700;margin:2px 0 6px}
+  .reco p{margin:0}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+  @media (max-width:560px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:var(--bg);border-radius:12px;padding:12px}
+  .kpi .l{font-size:12px;color:var(--muted);font-weight:600}
+  .kpi .v{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+  .kpi .d{font-size:12px;font-weight:600}
+  .up{color:var(--green)} .down{color:var(--coral)}
+  .chart-title{font-size:14px;font-weight:700;margin:0 0 4px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-bottom:6px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  svg text{font-family:Inter,sans-serif}
+  .insight{margin-top:14px;padding:14px 16px;border-left:4px solid var(--teal);background:var(--teal-soft);border-radius:0 12px 12px 0;font-size:14.5px}
+  /* tables / lists */
+  .rows{display:grid;gap:10px}
+  .row{display:grid;grid-template-columns:1.3fr 2fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  @media (max-width:640px){.row{grid-template-columns:1fr auto}.row .bar-cell{grid-column:1/-1;order:3}}
+  .row .t{font-weight:700}
+  .row .s{font-size:13px;color:var(--muted)}
+  .bar{height:10px;background:var(--bg);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+  .bar span{display:block;height:100%;border-radius:99px}
+  .bar-meta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-top:5px;font-variant-numeric:tabular-nums}
+  .pill{font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:999px;white-space:nowrap}
+  .pill.good{background:var(--green-soft);color:var(--green)} .pill.warn{background:var(--amber-soft);color:var(--amber)} .pill.bad{background:var(--coral-soft);color:var(--coral)}
+  .row button{font:inherit;font-size:12.5px;font-weight:600;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:5px 9px;cursor:pointer;margin-top:6px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media (max-width:760px){.grid2{grid-template-columns:1fr}}
+  .big{font-family:Fraunces,serif;font-size:34px;font-weight:700;font-variant-numeric:tabular-nums}
+  .gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+  .gloss .card h3{font-size:19px;margin-bottom:6px}
+  .gloss .card p{margin:0;font-size:14.5px;color:var(--muted)}
+  .gloss code{font-size:13px;background:var(--bg);padding:2px 6px;border-radius:6px;color:var(--ink)}
+  .story{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media (max-width:760px){.story{grid-template-columns:1fr}}
+  .story .n{font-family:Fraunces,serif;font-size:28px;color:var(--teal);font-weight:700}
+  .story h3{font-size:19px;margin:4px 0 6px}
+  .story p{margin:0;font-size:14.5px;color:var(--muted)}
+  footer{padding:36px 0 48px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);margin-top:24px}
+  footer .links{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a href="#simulateur">Simulateur</a>
+  <a href="#stock">Stock vols</a>
+  <a href="#hotels">Contrats hôtels</a>
+  <a href="#lexique">Lexique</a>
+  <a href="#histoire">Du terrain à l'outil</a>
+</div></nav>
+
+<header><div class="wrap">
+  <div class="eyebrow">Yield management · Tour-opérateur</div>
+  <h1>Quel prix pour vendre les sièges qui restent ?</h1>
+  <p class="lead">Un simulateur qui reprend les arbitrages que je faisais sur le terrain en production touristique : sièges d'avion achetés d'avance, chambres sous contrat, et un départ qui approche.</p>
+  <div class="tags">
+    <span class="tag">Prix conseillé</span><span class="tag">Contrat ferme vs allotement</span><span class="tag">Pace de vente</span><span class="tag">Coût des chambres vides</span>
+  </div>
+  <p class="demo-note">Données de démonstration. Le modèle de demande est volontairement simple et chaque hypothèse est réglable.</p>
+</div></header>
+
+<!-- ===== SIMULATEUR ===== -->
+<section id="simulateur"><div class="wrap">
+  <h2>Simulateur de prix</h2>
+  <p class="sub">Choisissez un scénario ou réglez les curseurs : l'outil cherche le prix qui maximise le résultat sur les sièges restants (recettes moins coût de ces sièges).</p>
+
+  <div class="sim">
+    <div class="card">
+      <div class="presets" id="presets"></div>
+
+      <div class="field">
+        <label>Type de contrat</label>
+        <div class="seg" id="contract">
+          <button data-v="ferme" class="on">Ferme</button>
+          <button data-v="allot">Allotement</button>
+        </div>
+        <p class="hint" id="contractHint"></p>
+      </div>
+
+      <div class="field"><label for="seats">Sièges invendus <output id="o_seats"></output></label><input type="range" id="seats" min="1" max="120" step="1"></div>
+      <div class="field"><label for="days">Jours avant le départ <output id="o_days"></output></label><input type="range" id="days" min="1" max="60" step="1"></div>
+      <div class="field"><label for="cost">Prix d'achat par siège <output id="o_cost"></output></label><input type="range" id="cost" min="200" max="1500" step="10"></div>
+      <div class="field"><label for="price">Prix de vente actuel <output id="o_price"></output></label><input type="range" id="price" min="250" max="2500" step="10"></div>
+      <div class="field"><label for="pace">Ventes par jour au prix actuel <output id="o_pace"></output></label><input type="range" id="pace" min="0.2" max="8" step="0.1"></div>
+      <div class="field"><label for="elas">Sensibilité de la clientèle au prix <output id="o_elas"></output></label><input type="range" id="elas" min="0.5" max="4" step="0.1"></div>
+      <p class="hint">Sensibilité 1 : -10 % sur le prix ≈ +10 % de ventes. À 3, les clients sont très réactifs (dernière minute, destination concurrencée).</p>
+    </div>
+
+    <div>
+      <div class="reco" id="reco"></div>
+      <div class="kpis" id="kpis"></div>
+      <div class="card">
+        <p class="chart-title">Résultat sur les sièges restants selon le prix (plage : −65 % à +30 %)</p>
+        <div class="legend">
+          <span><i style="background:var(--teal)"></i>Résultat</span>
+          <span><i style="background:var(--muted)"></i>Prix actuel</span>
+          <span><i style="background:var(--coral)"></i>Prix conseillé</span>
+          <span><i style="background:#c9c1b3"></i>Prix d'achat</span>
+        </div>
+        <div id="chart"></div>
+        <div class="insight" id="insight"></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===== STOCK VOLS ===== -->
+<section id="stock"><div class="wrap">
+  <h2>Stock de sièges : où agir en premier ?</h2>
+  <p class="sub">Le bon indicateur n'est pas le taux de remplissage, mais le <strong>pace</strong> : combien de sièges il faut vendre par jour d'ici le départ, comparé au rythme actuel.</p>
+  <div class="rows" id="flights"></div>
+</div></section>
+
+<!-- ===== HOTELS ===== -->
+<section id="hotels"><div class="wrap">
+  <h2>Contrats hôteliers</h2>
+  <p class="sub">En contrat ferme, une chambre vide est payée quand même. En allotement, elle se rend sans frais, à condition de la libérer avant la date de release.</p>
+  <div class="grid2" style="margin-bottom:18px">
+    <div class="card">
+      <div class="s" style="color:var(--muted);font-size:14px;font-weight:600">Chambres vides payées par semaine (contrats fermes)</div>
+      <div class="big" id="emptyCost"></div>
+      <div style="font-size:14px;color:var(--muted)" id="emptyDetail"></div>
+    </div>
+    <div class="card">
+      <div class="s" style="color:var(--muted);font-size:14px;font-weight:600">Taux d'utilisation moyen du portefeuille</div>
+      <div class="big" id="avgUse"></div>
+      <div style="font-size:14px;color:var(--muted)" id="useDetail"></div>
+    </div>
+  </div>
+  <div class="rows" id="hotelRows"></div>
+</div></section>
+
+<!-- ===== LEXIQUE ===== -->
+<section id="lexique"><div class="wrap">
+  <h2>Lexique</h2>
+  <p class="sub">Les indicateurs d'un revenue manager, en une phrase chacun.</p>
+  <div class="gloss">
+    <div class="card"><h3>ADR</h3><p>Prix moyen par chambre vendue. <code>CA hébergement ÷ chambres vendues</code></p></div>
+    <div class="card"><h3>RevPAR</h3><p>Revenu par chambre disponible, vendue ou non. <code>ADR × taux d'occupation</code></p></div>
+    <div class="card"><h3>Taux d'occupation</h3><p>Part des chambres (ou sièges) réellement vendues sur le stock disponible.</p></div>
+    <div class="card"><h3>Contrat ferme</h3><p>Le stock est acheté d'avance et payé, vendu ou pas. Le coût devient un coût irrécupérable.</p></div>
+    <div class="card"><h3>Allotement</h3><p>Un stock réservé mais rendu sans frais s'il est libéré avant la date de release.</p></div>
+    <div class="card"><h3>Pace</h3><p>Le rythme de vente nécessaire pour écouler le stock avant le départ, comparé au rythme réel.</p></div>
+  </div>
+</div></section>
+
+<!-- ===== HISTOIRE ===== -->
+<section id="histoire"><div class="wrap">
+  <h2>Du terrain à l'outil</h2>
+  <p class="sub">Ce projet traduit en produit des décisions que je prenais à la main, sous pression, avec Excel et le téléphone.</p>
+  <div class="story">
+    <div class="card"><div class="n">1</div><h3>Le terrain</h3><p>Responsable de production chez un tour-opérateur : allocations aériennes, contrats hôteliers, négociation avec les partenaires et arbitrages de dernière minute.</p></div>
+    <div class="card"><div class="n">2</div><h3>Le réflexe métier</h3><p>Sur un stock ferme, l'argent est déjà dépensé : la question n'est plus « à combien je l'ai acheté ? » mais « quel prix vend le plus de valeur d'ici le départ ? ».</p></div>
+    <div class="card"><div class="n">3</div><h3>L'outil</h3><p>Ce raisonnement devient un simulateur lisible par toute l'équipe, pour décider en quelques minutes plutôt qu'en une réunion.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <strong style="color:var(--ink)">Fahima Behillil</strong> · Cheffe de projet IA & automatisation · Business Tech Bridge
+  <div class="links">
+    <a href="https://github.com/Fahima94/yield-management-tourism">Code source sur GitHub</a>
+    <a href="https://www.linkedin.com/in/fahima-be">LinkedIn</a>
+  </div>
+  <p style="margin-top:14px;font-size:13px">Données fictives à visée de démonstration. Modèle de demande : ventes = rythme × jours × (prix ÷ prix actuel)<sup>−sensibilité</sup>, plafonnées au stock.</p>
+</div></footer>
+
+<script>
+(function(){
+  const eur = n => Math.round(n).toLocaleString('fr-FR') + ' €';
+  const eurK = n => (Math.abs(n) >= 10000 ? (n/1000).toLocaleString('fr-FR',{maximumFractionDigits:1}) + ' k€' : eur(n));
+  const $ = id => document.getElementById(id);
+
+  /* ---------- Données de démonstration ---------- */
+  const flights = [
+    {vol:'EK405', dest:'Dubaï',     alloc:30, sold:29, days:12, pace:0.4, cost:540, price:789,  contract:'ferme'},
+    {vol:'TG947', dest:'Thaïlande', alloc:35, sold:31, days:20, pace:0.5, cost:675, price:985,  contract:'allot'},
+    {vol:'AF738', dest:'Maldives',  alloc:45, sold:38, days:9,  pace:0.4, cost:890, price:1245, contract:'ferme'},
+    {vol:'QR834', dest:'Maldives',  alloc:25, sold:18, days:6,  pace:0.6, cost:920, price:1189, contract:'allot'},
+    {vol:'GA715', dest:'Bali',      alloc:45, sold:32, days:14, pace:0.5, cost:780, price:1098, contract:'ferme'}
+  ];
+  const hotels = [
+    ['Oberoi Beach Resort','Ferme',25,320,92],['Mercure Koh Samui','Allotement',40,185,87],
+    ['TBH Luxury Maldives','Ferme',20,450,95],['Hilton Dubai Creek','Allotement',35,240,78],
+    ['Novotel Bali Benoa','Ferme',30,165,83],['Shangri-La Bangkok','Allotement',28,285,91],
+    ['Conrad Maldives','Ferme',15,680,97],['Sofitel Dubai Palm','Allotement',32,295,89],
+    ['Four Seasons Bali','Ferme',18,520,94]
+  ].map(h => ({name:h[0], type:h[1], rooms:h[2], cost:h[3], use:h[4]}));
+
+  const presets = [
+    {id:'crise', label:'Crise : 50 sièges Dubaï à J-10', crisis:true, s:{contract:'ferme', seats:50, days:10, cost:540, price:789, pace:1.2, elas:2.4}},
+    ...flights.map(f => ({id:f.vol, label:f.vol + ' · ' + f.dest, s:{contract:f.contract, seats:f.alloc - f.sold, days:f.days, cost:f.cost, price:f.price, pace:f.pace, elas:2.5}}))
+  ];
+
+  /* ---------- État ---------- */
+  const st = Object.assign({}, presets[0].s);
+  let activePreset = 'crise';
+
+  /* ---------- Modèle ---------- */
+  function outcome(p, s){
+    const demand = s.pace * s.days * Math.pow(p / s.price, -s.elas);
+    const sold = Math.min(s.seats, demand);
+    const revenue = sold * p;
+    // Ferme : tout le stock restant est déjà payé (coût irrécupérable).
+    // Allotement : les sièges invendus sont rendus sans frais.
+    const cost = s.contract === 'ferme' ? s.seats * s.cost : sold * s.cost;
+    return {p, sold, unsold: s.seats - sold, revenue, margin: revenue - cost};
+  }
+  function optimise(s){
+    const lo = Math.max(50, s.price * 0.35), hi = s.price * 1.3; // au-delà de +30 %, la concurrence décroche la clientèle
+    const curve = [];
+    for (let i = 0; i <= 160; i++){ curve.push(outcome(lo + (hi - lo) * i / 160, s)); }
+    let best = curve[0];
+    for (const c of curve){ if (c.margin > best.margin + 0.5) best = c; }
+    best = outcome(Math.round(best.p / 5) * 5, s);
+    return {curve, best, lo, hi};
+  }
+
+  /* ---------- UI : préréglages & contrôles ---------- */
+  const pBox = $('presets');
+  presets.forEach(p => {
+    const b = document.createElement('button');
+    b.textContent = p.label; b.dataset.id = p.id;
+    if (p.crisis) b.classList.add('crisis');
+    b.onclick = () => applyPreset(p.id);
+    pBox.appendChild(b);
+  });
+  function applyPreset(id){
+    const p = presets.find(x => x.id === id);
+    Object.assign(st, p.s); activePreset = id; syncInputs(); render();
+  }
+  const fmt = {
+    seats: v => v, days: v => 'J-' + v, cost: eur, price: eur,
+    pace: v => (+v).toLocaleString('fr-FR',{maximumFractionDigits:1}) + ' / jour', elas: v => (+v).toLocaleString('fr-FR',{minimumFractionDigits:1})
+  };
+  ['seats','days','cost','price','pace','elas'].forEach(k => {
+    $(k).addEventListener('input', e => { st[k] = +e.target.value; activePreset = null; render(); });
+  });
+  document.querySelectorAll('#contract button').forEach(b => b.onclick = () => { st.contract = b.dataset.v; activePreset = null; render(); });
+  function syncInputs(){ ['seats','days','cost','price','pace','elas'].forEach(k => $(k).value = st[k]); }
+
+  /* ---------- Graphique SVG ---------- */
+  function drawChart(opt){
+    const W = 640, H = 260, m = {l:58, r:14, t:14, b:34};
+    const xs = p => m.l + (p - opt.lo) / (opt.hi - opt.lo) * (W - m.l - m.r);
+    const ys0 = opt.curve.map(c => c.margin);
+    let yMin = Math.min(0, ...ys0), yMax = Math.max(0, ...ys0);
+    const pad = (yMax - yMin) * 0.08 || 1; yMin -= pad; yMax += pad;
+    const ys = v => m.t + (yMax - v) / (yMax - yMin) * (H - m.t - m.b);
+    let path = '';
+    opt.curve.forEach((c, i) => { path += (i ? 'L' : 'M') + xs(c.p).toFixed(1) + ',' + ys(c.margin).toFixed(1); });
+    let area = path + 'L' + xs(opt.hi).toFixed(1) + ',' + ys(0).toFixed(1) + 'L' + xs(opt.lo).toFixed(1) + ',' + ys(0).toFixed(1) + 'Z';
+    // graduations
+    let grid = '';
+    for (let i = 0; i <= 4; i++){
+      const v = yMin + (yMax - yMin) * i / 4, y = ys(v);
+      grid += `<line x1="${m.l}" x2="${W - m.r}" y1="${y}" y2="${y}" stroke="#eee6d9"/><text x="${m.l - 8}" y="${y + 4}" text-anchor="end" font-size="11" fill="#5d6b7e">${eurK(v)}</text>`;
+    }
+    for (let i = 0; i <= 4; i++){
+      const p = opt.lo + (opt.hi - opt.lo) * i / 4;
+      grid += `<text x="${xs(p)}" y="${H - 10}" text-anchor="middle" font-size="11" fill="#5d6b7e">${eur(p)}</text>`;
+    }
+    const vline = (p, col, dash, lbl, anchorRight) => {
+      if (p < opt.lo || p > opt.hi) return '';
+      const x = xs(p);
+      return `<line x1="${x}" x2="${x}" y1="${m.t}" y2="${H - m.b}" stroke="${col}" stroke-width="2" ${dash ? 'stroke-dasharray="4 4"' : ''}/>` +
+             (lbl ? `<text x="${x + (anchorRight ? -6 : 6)}" y="${m.t + 12}" font-size="11.5" font-weight="700" fill="${col}" text-anchor="${anchorRight ? 'end' : 'start'}">${lbl}</text>` : '');
+    };
+    const bx = xs(opt.best.p), by = ys(opt.best.margin);
+    const right = opt.best.p > (opt.lo + opt.hi) / 2;
+    return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Courbe de marge selon le prix de vente">
+      ${grid}
+      <line x1="${m.l}" x2="${W - m.r}" y1="${ys(0)}" y2="${ys(0)}" stroke="#14233a" stroke-opacity=".35"/>
+      <path d="${area}" fill="#1f7a72" fill-opacity=".09"/>
+      ${vline(st.cost, '#c9c1b3', true, '', false)}
+      ${vline(st.price, '#5d6b7e', true, 'Actuel', !right)}
+      <path d="${path}" fill="none" stroke="#1f7a72" stroke-width="3" stroke-linejoin="round"/>
+      ${vline(opt.best.p, '#d9542b', false, 'Conseillé', right)}
+      <circle cx="${bx}" cy="${by}" r="6" fill="#d9542b" stroke="#fff" stroke-width="2"/>
+    </svg>`;
+  }
+
+  /* ---------- Rendu ---------- */
+  function render(){
+    document.querySelectorAll('#presets button').forEach(b => b.classList.toggle('on', b.dataset.id === activePreset));
+    document.querySelectorAll('#contract button').forEach(b => b.classList.toggle('on', b.dataset.v === st.contract));
+    ['seats','days','cost','price','pace','elas'].forEach(k => $('o_' + k).textContent = fmt[k](st[k]));
+    $('contractHint').textContent = st.contract === 'ferme'
+      ? 'Les sièges sont déjà payés : chaque vente, même sous le prix d\'achat, réduit la perte.'
+      : 'Les sièges invendus sont rendus sans frais : inutile de vendre sous le prix d\'achat.';
+
+    const s = st, opt = optimise(s), cur = outcome(s.price, s), b = opt.best;
+    const gain = b.margin - cur.margin;
+    const delta = (b.p - s.price) / s.price * 100;
+    const belowCost = b.p < s.cost;
+
+    let cls = 'good', head;
+    if (Math.abs(delta) < 3) { head = 'Gardez votre prix'; }
+    else if (delta < 0) { head = 'Baissez le prix de ' + Math.round(-delta) + ' %'; cls = belowCost ? 'bad' : 'warn'; }
+    else { head = 'Montez le prix de ' + Math.round(delta) + ' %'; }
+
+    let msg;
+    if (Math.abs(delta) < 3) msg = 'Votre prix actuel est déjà proche de l\'optimum pour ces hypothèses.';
+    else if (gain > 0) msg = `Résultat attendu sur les sièges restants : <strong>${eur(b.margin)}</strong> au lieu de ${eur(cur.margin)}, soit <strong>${gain > 0 ? '+' : ''}${eur(gain)}</strong>.`;
+    else msg = 'Gain négligeable par rapport au prix actuel.';
+    if (belowCost && s.contract === 'ferme') msg += ' Oui, sous le prix d\'achat : sur un contrat ferme, c\'est ce qui limite la perte.';
+
+    $('reco').className = 'reco ' + cls;
+    $('reco').innerHTML = `<div class="k">${head}</div><div class="price">${eur(b.p)}</div><p>${msg}</p>`;
+
+    const kp = (l, v, d, up) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div>${d ? `<div class="d ${up ? 'up' : 'down'}">${d}</div>` : ''}</div>`;
+    const dSold = b.sold - cur.sold;
+    $('kpis').innerHTML =
+      kp('Sièges vendus', Math.round(b.sold) + ' / ' + s.seats, (dSold >= 0 ? '+' : '') + Math.round(dSold) + ' vs actuel', dSold >= 0) +
+      kp('Invendus au départ', Math.round(b.unsold), '', true) +
+      kp('Chiffre d\'affaires', eurK(b.revenue), (b.revenue - cur.revenue >= 0 ? '+' : '') + eurK(b.revenue - cur.revenue), b.revenue >= cur.revenue) +
+      kp('Résultat stock restant', eurK(b.margin), (gain >= 0 ? '+' : '') + eurK(gain), gain >= 0);
+
+    $('chart').innerHTML = drawChart(opt);
+
+    const need = s.seats / s.days;
+    let ins;
+    if (s.contract === 'ferme') {
+      ins = `<strong>Lecture terrain :</strong> le stock ferme coûte déjà ${eur(s.seats * s.cost)}. Au prix actuel, il faudrait vendre <strong>${need.toLocaleString('fr-FR',{maximumFractionDigits:1})} sièges par jour</strong> pour tout écouler ; le rythme est de ${s.pace.toLocaleString('fr-FR',{maximumFractionDigits:1})}. ` +
+            (need > s.pace * 1.2 ? 'L\'écart est trop grand pour attendre : il faut agir sur le prix ou les canaux maintenant.' : 'Le rythme suit : pas besoin de brader.');
+    } else {
+      const toRelease = Math.max(0, Math.round(s.seats - b.sold));
+      ins = `<strong>Lecture terrain :</strong> en allotement, le vrai levier est la date de release. ` +
+            (toRelease > 0 ? `Avec ces hypothèses, environ <strong>${toRelease} siège${toRelease > 1 ? 's' : ''}</strong> ne trouveront pas preneur : libérez-les avant l'échéance plutôt que de casser le prix.` : 'Tout le stock devrait partir : conservez-le.');
+    }
+    $('insight').innerHTML = ins;
+  }
+
+  /* ---------- Stock vols ---------- */
+  function renderFlights(){
+    const rows = flights.map(f => {
+      const left = f.alloc - f.sold, need = left / f.days, ratio = f.pace > 0 ? need / f.pace : 99;
+      const status = left === 0 || ratio <= 1 ? ['good','Dans le rythme'] : ratio <= 2 ? ['warn','À surveiller'] : ['bad','Action requise'];
+      return {f, left, need, ratio, status};
+    }).sort((a, b) => b.ratio - a.ratio);
+    $('flights').innerHTML = rows.map(r => {
+      const fill = r.f.sold / r.f.alloc * 100;
+      const col = r.status[0] === 'good' ? 'var(--green)' : r.status[0] === 'warn' ? 'var(--amber)' : 'var(--coral)';
+      return `<div class="row">
+        <div><div class="t">${r.f.vol} · ${r.f.dest}</div><div class="s">${r.f.contract === 'ferme' ? 'Contrat ferme' : 'Allotement'} · départ J-${r.f.days}</div></div>
+        <div class="bar-cell"><div class="bar"><span style="width:${fill}%;background:${col}"></span></div>
+          <div class="bar-meta"><span>${r.f.sold}/${r.f.alloc} vendus</span><span>besoin ${r.need.toLocaleString('fr-FR',{maximumFractionDigits:1})}/j · rythme ${r.f.pace.toLocaleString('fr-FR',{maximumFractionDigits:1})}/j</span></div></div>
+        <div style="text-align:right"><span class="pill ${r.status[0]}">${r.status[1]}</span><br><button data-vol="${r.f.vol}">Simuler</button></div>
+      </div>`;
+    }).join('');
+    $('flights').querySelectorAll('button').forEach(b => b.onclick = () => { applyPreset(b.dataset.vol); document.getElementById('simulateur').scrollIntoView(); });
+  }
+
+  /* ---------- Hôtels ---------- */
+  function renderHotels(){
+    const ferme = hotels.filter(h => h.type === 'Ferme');
+    const empty = ferme.reduce((a, h) => a + h.rooms * (1 - h.use / 100) * h.cost, 0);
+    const emptyRooms = ferme.reduce((a, h) => a + h.rooms * (1 - h.use / 100), 0);
+    $('emptyCost').textContent = eur(empty);
+    $('emptyDetail').textContent = `≈ ${Math.round(emptyRooms)} chambres-semaines payées sans client, sur ${ferme.length} contrats fermes.`;
+    const totRooms = hotels.reduce((a, h) => a + h.rooms, 0);
+    const avg = hotels.reduce((a, h) => a + h.rooms * h.use, 0) / totRooms;
+    $('avgUse').textContent = avg.toLocaleString('fr-FR',{maximumFractionDigits:1}) + ' %';
+    $('useDetail').textContent = `Pondéré par le nombre de chambres (${totRooms} chambres sous contrat par semaine).`;
+
+    const rows = hotels.map(h => {
+      const vac = h.rooms * (1 - h.use / 100);
+      const risk = h.type === 'Ferme' ? vac * h.cost : 0;
+      const status = h.type === 'Ferme'
+        ? (h.use >= 92 ? ['good','Sain'] : ['bad', eur(risk) + ' / sem. perdus'])
+        : (h.use >= 85 ? ['good','Sain'] : ['warn','Libérer avant release']);
+      return {h, vac, risk, status};
+    }).sort((a, b) => b.risk - a.risk || a.h.use - b.h.use);
+    $('hotelRows').innerHTML = rows.map(r => {
+      const col = r.status[0] === 'good' ? 'var(--green)' : r.status[0] === 'warn' ? 'var(--amber)' : 'var(--coral)';
+      return `<div class="row">
+        <div><div class="t">${r.h.name}</div><div class="s">${r.h.type} · ${r.h.rooms} ch./sem. · achat ${eur(r.h.cost)}</div></div>
+        <div class="bar-cell"><div class="bar"><span style="width:${r.h.use}%;background:${col}"></span></div>
+          <div class="bar-meta"><span>${r.h.use} % utilisé</span><span>${r.vac.toLocaleString('fr-FR',{maximumFractionDigits:1})} ch. vides/sem.</span></div></div>
+        <div style="text-align:right"><span class="pill ${r.status[0]}">${r.status[1]}</span></div>
+      </div>`;
+    }).join('');
+  }
+
+  syncInputs(); render(); renderFlights(); renderHotels();
+})();
+</script>
+</body>
+</html>
