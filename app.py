@@ -156,11 +156,11 @@ if view_option == "Dashboard Exécutif":
         height=400
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
     
     # Tableau performance
     st.markdown("### 📊 Détail Performance Hebdomadaire")
-    st.dataframe(weekly_perf, use_container_width=True)
+    st.dataframe(weekly_perf, width="stretch")
 
 # ALLOCATIONS VOLS
 elif view_option == "Allocations Vols":
@@ -178,7 +178,7 @@ elif view_option == "Allocations Vols":
     
     # Tableau des allocations
     st.markdown("### 📊 Détail des Allocations")
-    st.dataframe(flight_data, use_container_width=True)
+    st.dataframe(flight_data, width="stretch")
     
     # Graphique de remplissage
     flight_data['taux_remplissage'] = (flight_data['places_vendues'] / flight_data['places_allouees']) * 100
@@ -191,7 +191,7 @@ elif view_option == "Allocations Vols":
         color_continuous_scale='RdYlGn',
         title="Taux de Remplissage par Vol"
     )
-    st.plotly_chart(fig_fill, use_container_width=True)
+    st.plotly_chart(fig_fill, width="stretch")
 
 # CONTRATS HÔTELIERS
 elif view_option == "Contrats Hôteliers":
@@ -211,7 +211,7 @@ elif view_option == "Contrats Hôteliers":
     
     # Tableau des hôtels
     st.markdown("### 🏨 Portfolio Hôteliers")
-    st.dataframe(hotel_data, use_container_width=True)
+    st.dataframe(hotel_data, width="stretch")
     
     # Graphiques
     col1, col2 = st.columns(2)
@@ -226,7 +226,7 @@ elif view_option == "Contrats Hôteliers":
             color='taux_utilisation', 
             color_continuous_scale='RdYlGn'
         )
-        st.plotly_chart(fig_util, use_container_width=True)
+        st.plotly_chart(fig_util, width="stretch")
     
     with col2:
         contract_counts = hotel_data['type_contrat'].value_counts()
@@ -235,7 +235,7 @@ elif view_option == "Contrats Hôteliers":
             names=contract_counts.index,
             title="Répartition Types de Contrats"
         )
-        st.plotly_chart(fig_contracts, use_container_width=True)
+        st.plotly_chart(fig_contracts, width="stretch")
 
 # ANALYTICS
 elif view_option == "Analytics":
@@ -273,7 +273,7 @@ elif view_option == "Analytics":
             size='ca_realise',
             title="Corrélation Conversions vs Marge"
         )
-        st.plotly_chart(fig_trend, use_container_width=True)
+        st.plotly_chart(fig_trend, width="stretch")
     
     with col2:
         dest_performance = flight_data.groupby('destination').agg({
@@ -287,7 +287,7 @@ elif view_option == "Analytics":
             y='marge_pct',
             title="Marge Moyenne par Destination"
         )
-        st.plotly_chart(fig_dest, use_container_width=True)
+        st.plotly_chart(fig_dest, width="stretch")
 
 # Sidebar - Contexte expérience
 st.sidebar.markdown("---")
