@@ -1,6 +1,6 @@
 # 🏨 Système de Yield Management Touristique
 
-[![GitHub Pages](https://img.shields.io/badge/Demo-Live-brightgreen?style=for-the-badge&logo=github)](https://fahima94-yield-management-tourism.streamlit.app)
+[![Simulateur](https://img.shields.io/badge/Simulateur-En%20ligne-brightgreen?style=for-the-badge&logo=github)](https://fahima94.github.io/yield-management-tourism/)
 [![Stars](https://img.shields.io/github/stars/Fahima94/yield-management-tourism?style=for-the-badge&logo=github)](https://github.com/Fahima94/yield-management-tourism/stargazers)
 [![Forks](https://img.shields.io/github/forks/Fahima94/yield-management-tourism?style=for-the-badge&logo=github)](https://github.com/Fahima94/yield-management-tourism/network)
 
@@ -58,7 +58,9 @@ Ce projet s'appuie sur mon expérience de gestion de contrats hôteliers et d'op
 Ce système de **Yield Management** a été conçu pour optimiser la gestion des allocations hôtelières dans l'industrie du tourisme. Il permet de maximiser les revenus en ajustant dynamiquement les prix en fonction de la demande, des taux de clics, et des performances de conversion.
 
 ### 🎪 **Demo Live**
-👉 [**Voir la démo interactive Streamlit**](https://fahima94-yield-management-tourism.streamlit.app) 
+👉 [**Ouvrir le simulateur de prix (web, mobile)**](https://fahima94.github.io/yield-management-tourism/)
+
+Version Streamlit d'origine : [fahima94-yield-management-tourism.streamlit.app](https://fahima94-yield-management-tourism.streamlit.app)
 
 ### 📸 **Aperçu du Dashboard**
 
